@@ -7,11 +7,12 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    env:
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
     strategy:
       matrix:
         os: [windows-latest]
+        vs: [2019]
+    env:
+      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -24,8 +25,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
       - name: Version Info
         run: mvn -version
       - name: Build with Maven and nmake
