@@ -10,8 +10,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, windows-latest, macos-latest]
-    env:
-      VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
+        include:
+        - os-version: 10.x
+          vs: [2019]
+          vcvars: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -31,6 +33,8 @@ jobs:
         run: mvn -B package --file pom.xml
       - if: matrix.os == 'windows-latest'
         name: Build with Microsoft Visual Studio native tools command prompt and Maven
+        env:
+          VCVARS: ${{ matrix.vcvars }}
         shell: cmd
         run: |
           call "%VCVARS%"
