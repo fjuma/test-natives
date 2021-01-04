@@ -11,7 +11,7 @@ jobs:
       matrix:
         os: [ubuntu-16.04, windows-latest, macos-latest]
         include:
-        - os-version: 10.x
+        - os: 10.x
           vs: [2019]
           vcvars: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
     steps:
