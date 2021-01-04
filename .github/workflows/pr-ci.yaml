@@ -28,6 +28,7 @@ jobs:
       - name: Version Info
         run: mvn -version
       - name: Build with Maven and nmake
+        shell: cmd
         run: |
           call "%VCVARS%"
           mvn -B package --file pom.xml
