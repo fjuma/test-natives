@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-16.04, windows-latest, macos-latest]
-        vs: [2019]
     env:
       VCVARS: C:\Program Files (x86)\Microsoft Visual Studio\${{ matrix.vs }}\Enterprise\VC\Auxiliary\Build\vcvars64.bat
     steps:
@@ -31,7 +30,7 @@ jobs:
         name: Build with Maven
         run: mvn -B package --file pom.xml
       - if: matrix.os == 'windows-latest'
-        name: Build with Maven and nmake
+        name: Build with Microsoft Visual Studio native tools command prompt and Maven
         shell: cmd
         run: |
           call "%VCVARS%"
