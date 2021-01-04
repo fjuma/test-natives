@@ -12,7 +12,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-16.04, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
         - os: windows-latest
           vcvars: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat
@@ -28,8 +28,10 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Version Info
+      - name: Maven Version Info
         run: mvn -version
+      - name: OpenSSL Library Version Info
+        run: openssl version -v
       - if: matrix.os != 'windows-latest'
         name: Build with Maven
         run: mvn -B package --file pom.xml
