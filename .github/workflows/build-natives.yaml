@@ -30,8 +30,13 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Maven Version Info
         run: mvn -version
-      - name: OpenSSL Library Version Info
+      - if: matrix.os != 'windows-latest'
+        name: OpenSSL Library Version Info
         run: openssl version -v
+      - if: matrix.os == 'windows-latest'
+        name: Install full OpenSSL library
+        run: |
+          choco install --no-progress openssl
       - if: matrix.os != 'windows-latest'
         name: Build with Maven
         run: mvn -B package --file pom.xml
